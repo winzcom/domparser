@@ -116,9 +116,9 @@ class Node {
         //set the attributes of the new Node
         newNode.setAttributes(i)
         if(prev == '/') {
-          newNode.text = text
+          this.text = text
           console.log({ myparent: this.parent })
-          newNode.end_at = i + 1
+          this.end_at = i + 1
           ++i
           continue
         }
