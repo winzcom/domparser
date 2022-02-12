@@ -2,6 +2,7 @@ let f = `<game id="come">
 <b>bold</b>
 <ul>
   <li>there</li>
+  <li>no way home </li>
 </ul>
 </game>
 <html id="diff" class="settings love">
@@ -15,7 +16,38 @@ let f = `<game id="come">
 </head>
 <body>
 <div><span id="right-border">come live here</span>come out here
-<lol></lol></div></body><jk><span id="span"/>jktest</jk></html>`
+<lol></lol></div></body><a href="http://google.com"></a></html>`
+
+let g = `<html>  
+<head>  
+<title>fieldset Tag</title>   
+</head>  
+<body>  
+ <h1>Example of fieldset Tag</h1>  
+ <p>User Feedback Form</p>  
+ <div>  
+ <form class="wd">  
+     <fieldset class="wd">  
+        <legend>User basic information:</legend>  
+        <label>First Name</label><br> 
+        <input type="text" name="fname"><br>  
+        <label>Last Name</label><br>  
+        <input type="text" name="lname"><br>  
+        <label>Enter Email</label><br>  
+        <input type="email" name="email"><br><br>  
+     </fieldset><br> 
+    <label class="tx">Enter your feedback:</label>  
+    <textarea class="tx" cols="30"></textarea>  
+    <input  class="tx" type="Submit"><br>  
+  </form>
+ </div>  
+</body>  
+</html>`
+
+const breaks = {
+  br:true,
+  input:true
+}
 
 class Node {
   constructor() {
@@ -24,6 +56,7 @@ class Node {
     this.text = ''
     this.attributes = ''
     this.attri = {}
+    this.unique_id
     this.tag
     this.end_at = 0
   }
@@ -72,6 +105,7 @@ class Node {
   
   run(f, start, parent, closed_tag = false) {
     let opening = false, prev, value = [], text = ''
+    //console.log({ start, line: 102, len: f[start], parent })
     let i = start
     while(i < f.length) {
       value = []
@@ -84,7 +118,7 @@ class Node {
         opening = true
         closed_tag = false
         start = i
-      } 
+      }
       else if(f[i] == '/' && prev == '<') {
         opening = false
       }
@@ -115,9 +149,13 @@ class Node {
         }
         //set the attributes of the new Node
         newNode.setAttributes(i)
+        if(breaks[newNode.tag]) {
+          i += 1
+          continue
+        }
         if(prev == '/') {
           this.text = text
-          console.log({ myparent: this.parent })
+          //console.log({ myparent: this.parent })
           this.end_at = i + 1
           ++i
           continue
@@ -160,6 +198,23 @@ class Node {
     return false
   }
 
+  findTag(tag, tags = []) {
+    const queue = []
+
+    queue.push(this)
+
+    while(queue.length > 0) {
+      const latest = queue.pop()
+      if (latest.tag == tag) {
+        tags.push(latest)
+      }
+      for(let i = 0; i < latest.children.length; i += 1) {
+        queue.push(latest.children[i])
+      }
+    }
+    return tags
+  }
+
   getParent() {
     if(this.parent.tag) {
       return this.parent
@@ -179,6 +234,10 @@ class DomTree {
     this.root.run(f, 0, this)
   }
 
+  findTag(tag){
+    return this.root.findTag(tag)
+  }
+
   traverse() {
     this.root.traverse()
   }
@@ -190,8 +249,10 @@ class DomTree {
 
 const dom = new DomTree()
 
-dom.run(f)
-dom.traverse()
+dom.run(g)
+//dom.traverse()
+
+console.log(dom.findTag('form')[0].children.length)
 
 //console.log({ idFound: dom.findById('right-border })
 
