@@ -18,7 +18,8 @@ let f = `<game id="come">
 <div><span id="right-border">come live here</span>come out here
 <lol></lol></div></body><a href="http://google.com"></a></html>`
 
-let g = `<html>  
+let g = `
+<html> <!--this is a comment --> 
 <head>  
 <title>fieldset Tag</title>   
 </head>  
@@ -38,7 +39,7 @@ let g = `<html>
      </fieldset><br> 
     <label class="tx">Enter your feedback:</label>  
     <textarea class="tx" cols="30"></textarea>  
-    <input  class="tx" type="Submit"><br>  
+    <input class="tx" type="Submit"><br>  
   </form>
  </div>  
 </body>  
@@ -106,13 +107,16 @@ class Node {
   run(f, start, parent, closed_tag = false) {
     let opening = false, prev, value = [], text = ''
     //console.log({ start, line: 102, len: f[start], parent })
-    let i = start
+    let i = start, comment = false
     while(i < f.length) {
       value = []
       //console.log({ ibase: i, line: 24 })
       if(f[i] == '\n') {
         i += 1
         continue
+      }
+      if(f[i] == '!' && prev == '<') {
+          comment = true
       }
       if(f[i] == '<') {
         opening = true
@@ -127,6 +131,12 @@ class Node {
           this.text = text
           this.end_at = i + 1
           return this
+        }
+        if(comment) {
+            comment = false
+             i += 1
+             start = i
+            continue
         }
         closed_tag = true
         let attribute_points = i
@@ -151,6 +161,7 @@ class Node {
         newNode.setAttributes(i)
         if(breaks[newNode.tag]) {
           i += 1
+          comment = false
           continue
         }
         if(prev == '/') {
@@ -189,6 +200,28 @@ class Node {
       const foundId = latest.attri['id']
       if(foundId && foundId.trim() == id) {
         return latest
+      }
+      const children = latest.children
+      for(let i = 0; i < children.length; i += 1) {
+        queue.push(children[i])
+      }
+    }
+    return false
+  }
+
+  findByClass(class_name) {
+    const queue = []
+    queue.push(this)
+    while(queue.length > 0) {
+      let latest = queue.pop()
+      const found_class = latest.attri['class']
+      console.log({ finda: found_class })
+      const class_split = found_class ? found_class.split(' ') : []
+      for(let i = 0; i < class_split.length; i += 1) {
+        class_split[i] = class_split[i].trim()
+        if(class_name == class_split[i]) {
+            return latest
+        }
       }
       const children = latest.children
       for(let i = 0; i < children.length; i += 1) {
@@ -245,14 +278,22 @@ class DomTree {
   findById(id) {
     return this.root.findById(id)
   }
+
+  findByClass(class_name) {
+      return this.root.findByClass(class_name)
+  }
 }
 
 const dom = new DomTree()
 
-dom.run(g)
+dom.run(f)
 //dom.traverse()
 
-console.log(dom.findTag('form')[0].children.length)
+//console.log(dom.findTag('form')[0].children[5].tag)
 
-//console.log({ idFound: dom.findById('right-border })
+console.log({ idFound: dom.findById('right-border').text})
+
+console.log({
+    class_found: dom.findByClass('love')
+})
 
