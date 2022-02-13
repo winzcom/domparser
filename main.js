@@ -1,53 +1,14 @@
-let f = `<game id="come">
-<b>bold</b>
-<ul>
-  <li>there</li>
-  <li>no way home </li>
-</ul>
-</game>
-<html id="diff" class="settings love">
-<head>
-<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/angular-bootstrap-colorpicker/css/colorpicker.min.css" />
-  <link rel="stylesheet" href="bower_components/ngprogress/ngProgress.css" />
-  <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css" />
-  <link rel="stylesheet" href="https://vjs.zencdn.net/5.16.0/video-js.css" />
-  <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
-</head>
-<body>
-<div><span id="right-border">come live here</span>come out here
-<lol></lol></div></body><a href="http://google.com"></a></html>`
+const fs = require('fs')
 
-let g = `
-<html> <!--this is a comment --> 
-<head>  
-<title>fieldset Tag</title>   
-</head>  
-<body>  
- <h1>Example of fieldset Tag</h1>  
- <p>User Feedback Form</p>  
- <div>  
- <form class="wd">  
-     <fieldset class="wd">  
-        <legend>User basic information:</legend>  
-        <label>First Name</label><br> 
-        <input type="text" name="fname"><br>  
-        <label>Last Name</label><br>  
-        <input type="text" name="lname"><br>  
-        <label>Enter Email</label><br>  
-        <input type="email" name="email"><br><br>  
-     </fieldset><br> 
-    <label class="tx">Enter your feedback:</label>  
-    <textarea class="tx" cols="30"></textarea>  
-    <input class="tx" type="Submit"><br>  
-  </form>
- </div>  
-</body>  
-</html>`
+const content = fs.readFileSync('./k.html', {
+  encoding:'utf8', flag: 'r'
+})
 
 const breaks = {
   br:true,
-  input:true
+  input:true,
+  link:true,
+  meta:true
 }
 
 class Node {
@@ -115,8 +76,12 @@ class Node {
         i += 1
         continue
       }
+      if(!opening && f[i] == ' ') {
+        i += 1
+        continue
+      }
       if(f[i] == '!' && prev == '<') {
-          comment = true
+        comment = true
       }
       if(f[i] == '<') {
         opening = true
@@ -132,12 +97,6 @@ class Node {
           this.end_at = i + 1
           return this
         }
-        if(comment) {
-            comment = false
-             i += 1
-             start = i
-            continue
-        }
         closed_tag = true
         let attribute_points = i
         for(let j = start + 1; j < i; j += 1) {
@@ -150,7 +109,9 @@ class Node {
         }
         let newNode = new Node()
         newNode.tag = value.join('')
-        this.addChild(newNode)
+        if(!comment) {
+          this.addChild(newNode)
+        }
         newNode.parent = this
         if(attribute_points) {
           for(let k = attribute_points; k < i - 1; k += 1) {
@@ -159,9 +120,9 @@ class Node {
         }
         //set the attributes of the new Node
         newNode.setAttributes(i)
-        if(breaks[newNode.tag]) {
-          i += 1
+        if(breaks[newNode.tag] || comment) {
           comment = false
+          i += 1
           continue
         }
         if(prev == '/') {
@@ -171,6 +132,7 @@ class Node {
           ++i
           continue
         }
+        //console.log({ line: 128, jk: this.tag })
         newNode.run(f, i + 1, newNode, closed_tag)
         i = newNode.end_at
         start = i
@@ -182,6 +144,7 @@ class Node {
       prev = f[i]
       i += 1
     }
+    this.end_at = i
     return this
   }
 
@@ -200,28 +163,6 @@ class Node {
       const foundId = latest.attri['id']
       if(foundId && foundId.trim() == id) {
         return latest
-      }
-      const children = latest.children
-      for(let i = 0; i < children.length; i += 1) {
-        queue.push(children[i])
-      }
-    }
-    return false
-  }
-
-  findByClass(class_name) {
-    const queue = []
-    queue.push(this)
-    while(queue.length > 0) {
-      let latest = queue.pop()
-      const found_class = latest.attri['class']
-      console.log({ finda: found_class })
-      const class_split = found_class ? found_class.split(' ') : []
-      for(let i = 0; i < class_split.length; i += 1) {
-        class_split[i] = class_split[i].trim()
-        if(class_name == class_split[i]) {
-            return latest
-        }
       }
       const children = latest.children
       for(let i = 0; i < children.length; i += 1) {
@@ -278,22 +219,14 @@ class DomTree {
   findById(id) {
     return this.root.findById(id)
   }
-
-  findByClass(class_name) {
-      return this.root.findByClass(class_name)
-  }
 }
 
 const dom = new DomTree()
 
-dom.run(f)
-//dom.traverse()
+dom.run(content)
+dom.traverse()
 
-//console.log(dom.findTag('form')[0].children[5].tag)
+console.log(dom.findTag('body')[0].children.length)
 
-console.log({ idFound: dom.findById('right-border').text})
-
-console.log({
-    class_found: dom.findByClass('love')
-})
+//console.log({ idFound: dom.findById('right-border })
 

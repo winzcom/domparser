@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" > <!--<![endif]-->
+<html ng-app="billinguiApp">
+    <head>
+        <meta charset="utf-8">
+
+        <title>Platform UI</title>
+
+
+        <meta name="robots" content="noindex, nofollow">
+
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="bower_components/angular-bootstrap-colorpicker/css/colorpicker.min.css" />
+  <link rel="stylesheet" href="bower_components/ngprogress/ngProgress.css" />
+  <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css" />
+  <link rel="stylesheet" href="https://vjs.zencdn.net/5.16.0/video-js.css" />
+    <link rel="stylesheet" href="styles/angular-ui-tree.css"/>
+  <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+    <!-- Related styles of various icon packs and plugins -->
+        <link rel="stylesheet" href="styles/plugins.css"/>
+
+        <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
+        <link rel="stylesheet" href="/api/whitelabel/main.css"/>
+        <link rel="shortcut icon" href="/api/whitelabel_favicon" type="image/x-icon" />
+
+        <!-- Include a specific file here from styles/themes/ folder to alter the default theme of the template -->
+
+        <!-- The themes stylesheet of this template (for using specific theme color in individual elements - must included last) -->
+        <link rel="stylesheet" href="styles/autocomplete.css"/>
+        <link rel="stylesheet" href="styles/themes.css"/>
+        <link rel="stylesheet" href="styles/currency-flags.min.css"/>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <script src="scripts/local/vendor/modernizr-2.7.1-respond-1.4.2.min.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body>
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div ui-view="login"></div>
+    <div id="page-container" class="sidebar-partial sidebar-visible-lg sidebar-no-animations">
+       <div ui-view="sidebar"></div>
+
+    <div id="main-container">
+             <div ui-view="header"></div>
+        <div ui-view="content"></div>
+        <div ui-view="footer"></div>
+    </div>
+
+
+    </div>
+    <div ui-view="modals"></div>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+   
+<script src="bower_components/jquery/dist/jquery.js"></script>
+       <script src="scripts/local/plugins.js"></script>
+        <script src="scripts/local/app.js"></script>
+        <script src="scripts/local/pages/index.js"></script>
+        <script>$(function(){ Index.init();
+
+        });</script>
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+    <script src="bower_components/ng-csv/build/ng-csv.min.js"></script>
+    <script src="bower_components/chart.js/dist/Chart.js"></script>
+    <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
+    <script src="bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js"></script>
+    <script src="bower_components/sifter/sifter.js"></script>
+    <script src="bower_components/microplugin/src/microplugin.js"></script>
+    <script src="bower_components/selectize/dist/js/selectize.js"></script>
+    <script src="bower_components/angular-selectize2/dist/angular-selectize.js"></script>
+    <script src="bower_components/ngprogress/build/ngprogress.min.js"></script>
+    <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="bower_components/ngSweetAlert/SweetAlert.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.0/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.0/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.6/jstz.min.js"></script>
+    <script src="https://rawgit.com/mishguruorg/angular-timezone-selector/master/dist/angular-timezone-selector.js"></script>
+<script src="scripts/models/topupModel.js"></script>
+<script src="scripts/models/product.js"></script>
+<script src="scripts/array.js"></script>
+<script src="scripts/libs/paclient.js"></script>
+<script src="scripts/libs/topuphelper.js"></script>
+<script src="scripts/libs/autocomplete.js"></script>
+<script src="scripts/js/angular-ui-tree.js"></script>
+<script src="scripts/app.js"></script>
+<script src="scripts/controllers/main.js"></script>
+<script src="scripts/controllers/loginCtrl.js"></script>
+<script src="scripts/controllers/logoutController.js"></script>
+<script src="scripts/controllers/sidebarCtrl.js"></script>
+<script src="scripts/controllers/dashboardCtrl.js"></script>
+<script src="scripts/controllers/accountsController.js"></script>
+<script src="scripts/controllers/accountController.js"></script>
+
+  <script src="scripts/controllers/transactionListController.js"></script>
+  <script src="scripts/controllers/ticketListController.js"></script>
+  <script src="scripts/controllers/newTicketController.js"></script>
+  <script src="scripts/controllers/newSmsController.js"></script>
+  <script src="scripts/controllers/ticketController.js"></script>
+  <script src="scripts/controllers/rateListController.js"></script>
+  <script src="scripts/controllers/usersController.js"></script>
+  <script src="scripts/controllers/wListController.js"></script>
+    <script src="scripts/controllers/providerController.js"></script>
+  <script src="scripts/controllers/pinBatchListController.js"></script>
+  <script src="scripts/controllers/epinBatchListController.js"></script>
+    <script src="scripts/controllers/pinListController.js"></script>
+<script src="scripts/controllers/newAccountController.js"></script>
+<script src="scripts/controllers/topupController.js"></script>
+<script src="scripts/controllers/topupBulkController.js"></script>
+<script src="scripts/controllers/topupBulkListController.js"></script>
+<script src="scripts/controllers/topupBulkListDetailController.js"></script>
+<script src="scripts/controllers/jobViewController.js"></script>
+<script src="scripts/controllers/jobListController.js"></script>
+<script src="scripts/controllers/bulklistJobListController.js"></script>
+<script src="scripts/controllers/bulklistJobViewController.js"></script>
+<script src="scripts/controllers/tutorialListController.js"></script>
+  <script src="scripts/controllers/newAgentController.js"></script>
+<script src="scripts/controllers/topupListController.js"></script>
+<script src="scripts/controllers/bpayController.js"></script>
+<script src="scripts/controllers/modalCtrl.js"></script>
+  <script src="scripts/controllers/transactionController.js"></script>
+  <script src="scripts/controllers/ftController.js"></script>
+
+  <script src="scripts/controllers/pnumListController.js"></script>
+  <script src="scripts/controllers/pnumListViewController.js"></script>
+    <script src="scripts/controllers/promoListController.js"></script>
+    <script src="scripts/controllers/promoController.js"></script>
+
+      <script src="https://vjs.zencdn.net/5.16.0/video.js"></script>
+
+        <!-- endbuild -->
+</body>
+</html>
