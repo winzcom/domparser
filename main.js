@@ -189,6 +189,30 @@ class Node {
     return tags
   }
 
+  findByClass(class_name, tags = []) {
+    const queue = []
+    queue.push(this)
+    while(queue.length > 0) {
+      let latest = queue.pop()
+      const foundClass = latest.attri['class']
+      if(foundClass) {
+        const class_split = foundClass.split(' ')
+        if(class_split.length > 0) {
+          for(let i = 0; i < class_split.length; i += 1) {
+            if(class_split[i].trim() == class_name) {
+              tags.push(latest)
+            }
+          }
+        }
+      }
+      const children = latest.children
+      for(let i = 0; i < children.length; i += 1) {
+        queue.push(children[i])
+      }
+    }
+    return tags
+  }
+
   getParent() {
     if(this.parent.tag) {
       return this.parent
@@ -212,6 +236,10 @@ class DomTree {
     return this.root.findTag(tag)
   }
 
+  findByClass(class_name) {
+    return this.root.findByClass(class_name)
+  }
+
   traverse() {
     this.root.traverse()
   }
@@ -224,9 +252,11 @@ class DomTree {
 const dom = new DomTree()
 
 dom.run(content)
-dom.traverse()
+//dom.traverse()
 
-console.log(dom.findTag('body')[0].children.length)
+//console.log(dom.findTag('body')[0].children.length)
+
+console.log({ byClass: dom.findByClass('sidebar-partial')})
 
 //console.log({ idFound: dom.findById('right-border })
 
