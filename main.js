@@ -250,13 +250,14 @@ class DomTree {
 }
 
 const dom = new DomTree()
-
+console.time('time spent')
 dom.run(content)
+console.timeEnd('time spent')
+console.log('we fight')
 //dom.traverse()
 
 //console.log(dom.findTag('body')[0].children.length)
 
-console.log({ byClass: dom.findByClass('sidebar-partial')})
-
-//console.log({ idFound: dom.findById('right-border })
+console.log({ classFound: dom.findByClass('subheader').length })
+//console.log({idFound: dom.findById('section-49-18731')})
 
